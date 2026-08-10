@@ -69,3 +69,21 @@ jobs:
 
                   git tag -a "v${version}" -m "Release v${version}"
                   git push --atomic origin HEAD:main "refs/tags/v${version}"
+
+            - name: Create GitHub release
+              shell: bash
+              env:
+                  GH_TOKEN: ${{ github.token }}
+              run: |
+                  version="${{ steps.version.outputs.version }}"
+                  tag="v${version}"
+                  asset="laravel-blade-pro-${version}.vsix"
+
+                  if gh release view "$tag" >/dev/null 2>&1; then
+                    gh release upload "$tag" "$asset" --clobber
+                  else
+                    gh release create "$tag" "$asset" \
+                      --verify-tag \
+                      --title "Laravel Blade Pro v${version}" \
+                      --generate-notes
+                  fi
