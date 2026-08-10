@@ -1,26 +1,71 @@
 name: Publish Marketplace release
+
 on:
-  push:
-    tags: ["v*"]
+    workflow_run:
+        workflows: ['CI']
+        branches: [main]
+        types: [completed]
+    workflow_dispatch:
+
 permissions:
-  contents: read
+    contents: write
+
+concurrency:
+    group: marketplace-release
+    cancel-in-progress: false
+
 jobs:
-  publish:
-    runs-on: ubuntu-latest
-    environment: marketplace
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run compile
-      - run: npm run test:unit
-      - run: xvfb-run -a npm run test:integration
-      - run: npm run build
-      - name: Publish to Visual Studio Marketplace
-        run: npx @vscode/vsce publish --no-dependencies
-        env:
-          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+    publish:
+        if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+        runs-on: ubuntu-latest
+        environment: marketplace
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || 'main' }}
+                  fetch-depth: 0
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+                  cache: npm
+
+            - run: npm ci
+
+            - name: Select release version
+              id: version
+              shell: bash
+              run: |
+                  git fetch --tags --force
+                  version="$(node -p "require('./package.json').version")"
+
+                  if git rev-parse --verify --quiet "refs/tags/v${version}" >/dev/null; then
+                    npm version patch --no-git-tag-version
+                    version="$(node -p "require('./package.json').version")"
+                  fi
+
+                  echo "version=${version}" >> "$GITHUB_OUTPUT"
+                  echo "Releasing v${version}"
+
+            - run: npm run package
+            - run: xvfb-run -a npm run test:integration
+
+            - name: Publish to Visual Studio Marketplace
+              run: npx @vscode/vsce publish --packagePath "laravel-blade-pro-${{ steps.version.outputs.version }}.vsix" --skip-duplicate
+              env:
+                  VSCE_PAT: ${{ secrets.VSCE_PAT }}
+
+            - name: Commit version and create tag
+              shell: bash
+              run: |
+                  version="${{ steps.version.outputs.version }}"
+                  git config user.name "github-actions[bot]"
+                  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+                  if ! git diff --quiet -- package.json package-lock.json; then
+                    git add package.json package-lock.json
+                    git commit -m "chore(release): v${version} [skip ci]"
+                  fi
+
+                  git tag -a "v${version}" -m "Release v${version}"
+                  git push --atomic origin HEAD:main "refs/tags/v${version}"

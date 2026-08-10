@@ -91,8 +91,8 @@ Report reproducible issues through the repository issue tracker. Include a minim
 
 1. Confirm that the Marketplace publisher is `MMLTECH` and the repository metadata is current.
 2. Add a GitHub environment or repository secret named `VSCE_PAT` containing an Azure DevOps token with the Marketplace **Manage** scope. The workflow does not expose the token in logs.
-3. Confirm `package.json` is `0.1.0`, run `npm test && npm run package`, commit, then `git tag v0.1.0 && git push origin v0.1.0`.
-4. The tag workflow publishes with the `VSCE_PAT` secret. Migrate to `vsce publish --azure-credential` or native GitHub OIDC when the publisher authentication is configured and supported by the stable `@vscode/vsce` release.
+3. Push a normal change to `main`. After the `CI` workflow succeeds, the release workflow runs automatically. It increments the patch version when the current version already has a tag, updates `package.json` and `package-lock.json`, publishes the VSIX, and atomically pushes the synchronized release commit and `vX.Y.Z` tag.
+4. You can also run **Publish Marketplace release** manually from GitHub Actions. Migrate to `vsce publish --azure-credential` or native GitHub OIDC when the publisher authentication is configured and supported by the stable `@vscode/vsce` release.
 
 ## License
 
