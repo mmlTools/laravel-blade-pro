@@ -1,0 +1,49 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Laravel Blade",
+  "scopeName": "text.html.php.blade",
+  "patterns": [
+    { "include": "#blade-comment" }, { "include": "#verbatim" }, { "include": "#echoes" },
+    { "include": "#php-block" }, { "include": "#directives" }, { "include": "#script" }, { "include": "#style" },
+    { "include": "#blade-component" }, { "include": "text.html.basic" }
+  ],
+  "repository": {
+    "blade-comment": { "name": "comment.block.blade", "begin": "\\{\\{--", "end": "--\\}\\}" },
+    "verbatim": { "name": "meta.embedded.block.verbatim.blade", "begin": "(?<![\\w.+-])(@)(verbatim)\\b", "beginCaptures": { "1": { "name": "punctuation.definition.directive.blade" }, "2": { "name": "keyword.control.directive.blade" } }, "end": "(?<![\\w.+-])(@)(endverbatim)\\b", "endCaptures": { "1": { "name": "punctuation.definition.directive.blade" }, "2": { "name": "keyword.control.directive.blade" } } },
+    "echoes": { "patterns": [
+      { "name": "meta.embedded.expression.blade", "begin": "\\{\\!\\!", "beginCaptures": { "0": { "name": "punctuation.section.embedded.begin.blade" } }, "end": "\\!\\!\\}", "endCaptures": { "0": { "name": "punctuation.section.embedded.end.blade" } }, "patterns": [{ "include": "#php-expression" }] },
+      { "name": "meta.embedded.expression.blade", "begin": "\\{\\{\\{", "beginCaptures": { "0": { "name": "punctuation.section.embedded.begin.blade" } }, "end": "\\}\\}\\}", "endCaptures": { "0": { "name": "punctuation.section.embedded.end.blade" } }, "patterns": [{ "include": "#php-expression" }] },
+      { "name": "meta.embedded.expression.blade", "begin": "\\{\\{", "beginCaptures": { "0": { "name": "punctuation.section.embedded.begin.blade" } }, "end": "\\}\\}", "endCaptures": { "0": { "name": "punctuation.section.embedded.end.blade" } }, "patterns": [{ "include": "#php-expression" }] }
+    ] },
+    "php-expression": { "patterns": [
+      { "name": "variable.other.php", "match": "\\$[A-Za-z_][A-Za-z0-9_]*" },
+      { "name": "support.function.php", "match": "(?<=(?:->|\\?->|::))[A-Za-z_][A-Za-z0-9_]*(?=\\s*\\()" },
+      { "name": "variable.other.property.php", "match": "(?<=(?:->|\\?->))[A-Za-z_][A-Za-z0-9_]*" },
+      { "name": "constant.language.php", "match": "\\b(?:true|false|null)\\b" },
+      { "name": "keyword.operator.php", "match": "(?:\\?->|->|::|===|!==|==|!=|<=|>=|&&|\\|\\||=>|[+*/%.!<>?:=-])" },
+      { "name": "string.quoted.single.php", "begin": "'", "end": "'", "patterns": [{ "name": "constant.character.escape.php", "match": "\\\\." }] },
+      { "name": "string.quoted.double.php", "begin": "\"", "end": "\"", "patterns": [{ "name": "constant.character.escape.php", "match": "\\\\." }] },
+      { "name": "constant.numeric.php", "match": "\\b(?:0x[0-9A-Fa-f]+|\\d+(?:\\.\\d+)?)\\b" },
+      { "name": "punctuation.section.parens.php", "match": "[()]" }
+    ] },
+    "directives": {
+      "name": "meta.directive.blade",
+      "begin": "(?<![\\w.+-])(@)(extends|section|endsection|show|yield|include(?:If|When|Unless|First)?|if|elseif|else|endif|unless|endunless|foreach|endforeach|forelse|empty|endforelse|for|endfor|while|endwhile|switch|case|break|default|endswitch|isset|endisset|endempty|auth|endauth|guest|endguest|can|cannot|canany|endcan|endcannot|endcanany|env|endenv|production|endproduction|php|endphp|once|endonce|push|endpush|pushOnce|endPushOnce|prepend|endprepend|stack|component|endcomponent|slot|endslot|props|aware|class|style|checked|selected|disabled|readonly|required|csrf|method|vite|viteReactRefresh|json|js|[A-Za-z_][A-Za-z0-9_]*)(?=\\b|\\s*\\()",
+      "beginCaptures": { "1": { "name": "punctuation.definition.directive.blade" }, "2": { "name": "keyword.control.directive.blade" } },
+      "end": "(?=$|[^\\s(])|(?<=\\))",
+      "patterns": [{ "name": "meta.group.directive.arguments.blade", "begin": "\\(", "beginCaptures": { "0": { "name": "punctuation.section.parens.begin.php" } }, "end": "\\)", "endCaptures": { "0": { "name": "punctuation.section.parens.end.php" } }, "patterns": [{ "include": "#php-expression" }, { "include": "$self" }] }]
+    },
+    "php-block": { "name": "meta.embedded.block.php.blade", "begin": "(?<![\\w.+-])(@)(php)\\b(?!\\s*\\()", "beginCaptures": { "1": { "name": "punctuation.definition.directive.blade" }, "2": { "name": "keyword.control.directive.blade" } }, "end": "(?<![\\w.+-])(@)(endphp)\\b", "endCaptures": { "1": { "name": "punctuation.definition.directive.blade" }, "2": { "name": "keyword.control.directive.blade" } }, "patterns": [{ "include": "source.php" }] },
+    "script": { "name": "meta.embedded.block.javascript.blade", "begin": "(<)(script)\\b([^>]*)(>)", "beginCaptures": { "1": { "name": "punctuation.definition.tag.begin.html" }, "2": { "name": "entity.name.tag.script.html" }, "3": { "patterns": [{ "include": "#attributes" }] }, "4": { "name": "punctuation.definition.tag.end.html" } }, "end": "(</)(script)(\\s*>)", "endCaptures": { "1": { "name": "punctuation.definition.tag.begin.html" }, "2": { "name": "entity.name.tag.script.html" }, "3": { "name": "punctuation.definition.tag.end.html" } }, "patterns": [{ "include": "#blade-comment" }, { "include": "#echoes" }, { "include": "#directives" }, { "include": "source.js" }] },
+    "style": { "name": "meta.embedded.block.css.blade", "begin": "(<)(style)\\b([^>]*)(>)", "beginCaptures": { "1": { "name": "punctuation.definition.tag.begin.html" }, "2": { "name": "entity.name.tag.style.html" }, "3": { "patterns": [{ "include": "#attributes" }] }, "4": { "name": "punctuation.definition.tag.end.html" } }, "end": "(</)(style)(\\s*>)", "endCaptures": { "1": { "name": "punctuation.definition.tag.begin.html" }, "2": { "name": "entity.name.tag.style.html" }, "3": { "name": "punctuation.definition.tag.end.html" } }, "patterns": [{ "include": "#blade-comment" }, { "include": "#echoes" }, { "include": "#directives" }, { "include": "source.css" }] },
+    "blade-component": { "name": "meta.tag.component.blade", "begin": "(<\\/?)(x[-:][A-Za-z0-9_.:-]+)", "beginCaptures": { "1": { "name": "punctuation.definition.tag.begin.html" }, "2": { "name": "entity.name.tag.component.blade" } }, "end": "(/?>)", "endCaptures": { "1": { "name": "punctuation.definition.tag.end.html" } }, "patterns": [{ "include": "#attributes" }] },
+    "attributes": { "patterns": [
+      { "name": "entity.other.attribute-name.alpine.blade", "match": "(?<![\\w-])(?:x-(?:data|show|if|bind(?::[\\w.-]+)?|on(?::[\\w.-]+)?|model|transition)[\\w.:-]*|@[\\w.:-]+|:[\\w.:-]+)(?=\\s|=|/?>)" },
+      { "name": "entity.other.attribute-name.livewire.blade", "match": "(?<![\\w-])wire:[\\w.:-]+(?=\\s|=|/?>)" },
+      { "name": "entity.other.attribute-name.blade", "match": "(?<![\\w-]):[A-Za-z_][\\w.:-]*(?=\\s|=|/?>)" },
+      { "name": "entity.other.attribute-name.html", "match": "[A-Za-z_:][\\w.:-]*(?=\\s|=|/?>)" },
+      { "name": "string.quoted.double.html", "begin": "\"", "end": "\"", "patterns": [{ "include": "#echoes" }, { "include": "#directives" }] },
+      { "name": "string.quoted.single.html", "begin": "'", "end": "'", "patterns": [{ "include": "#echoes" }, { "include": "#directives" }] }
+    ] }
+  }
+}

@@ -1,0 +1,16 @@
+.github/**
+.vscode/**
+.gitignore
+src/**
+test/**
+dist-test/**
+sample-workspace/**
+coverage/**
+node_modules/**
+tsconfig.json
+eslint.config.mjs
+esbuild.mjs
+build-test.mjs
+.prettierrc.json
+*.vsix
+*.map

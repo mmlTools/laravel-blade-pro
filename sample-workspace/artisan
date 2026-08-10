@@ -1,0 +1,2 @@
+#!/usr/bin/env php
+<?php // Detection-only sample; this file is never executed by the extension.
