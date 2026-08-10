@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Treat PHP array arrows (`=>`) as a single operator in Blade syntax highlighting.
 - Ensure GitHub's Linux runners install Rollup's required native package reliably.
 - Indent arrays, closures, and control-flow blocks inside `@php` / `@endphp` regions without running external PHP tools.
 - Add a custom light and dark file icon for Laravel Blade templates.

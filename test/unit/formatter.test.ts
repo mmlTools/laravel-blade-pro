@@ -58,7 +58,7 @@ it('formats TypeScript script regions while preserving Blade expressions', async
 });
 it('indents nested PHP blocks, arrays, and control flow', async () => {
     const source = `@section('content')
-@php
+  @php
 $options = [
 'yes' => 'Web3 games',
 'no' => 'Non-Web3 games',
