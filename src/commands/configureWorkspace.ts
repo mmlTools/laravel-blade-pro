@@ -1,8 +1,7 @@
 import * as vscode from "vscode";
 import { isLikelyLaravelProject } from "../utils/projectDetection.js";
 
-const EXTENSION_ID = "your-publisher-id.laravel-blade-pro";
-export async function configureWorkspaceFormatter(): Promise<void> {
+export async function configureWorkspaceFormatter(extensionId: string): Promise<void> {
   if (!vscode.workspace.workspaceFolders?.length) { void vscode.window.showInformationMessage("Open a workspace before configuring its formatter."); return; }
   const folder = vscode.workspace.workspaceFolders[0];
   if (!folder) return;
@@ -17,7 +16,7 @@ export async function configureWorkspaceFormatter(): Promise<void> {
   const ids = choice.label === "Blade only" ? ["laravel-blade"] : ["laravel-blade", "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "json"];
   for (const id of ids) {
     const existing = config.get<Record<string, unknown>>(`[${id}]`, {});
-    await config.update(`[${id}]`, { ...existing, "editor.defaultFormatter": EXTENSION_ID }, vscode.ConfigurationTarget.Workspace);
+    await config.update(`[${id}]`, { ...existing, "editor.defaultFormatter": extensionId }, vscode.ConfigurationTarget.Workspace);
   }
   const enable = await vscode.window.showQuickPick(["Enable format on save", "Keep current format-on-save setting"], { placeHolder: "Format on save" });
   if (enable === "Enable format on save") await config.update("editor.formatOnSave", true, vscode.ConfigurationTarget.Workspace);

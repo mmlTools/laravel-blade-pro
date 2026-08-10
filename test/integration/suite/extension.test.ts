@@ -3,7 +3,7 @@ import * as vscode from "vscode";
 
 suite("Laravel Blade Pro integration", () => {
   test("detects Blade and returns document/range formatting edits", async () => {
-    const extension = vscode.extensions.getExtension("your-publisher-id.laravel-blade-pro");
+    const extension = vscode.extensions.all.find((candidate) => candidate.id.toLowerCase().endsWith(".laravel-blade-pro"));
     assert.ok(extension, "Development extension was not discovered");
     await extension.activate();
     const document = await vscode.workspace.openTextDocument({ language: "laravel-blade", content: "@if($user)\n<div>{{$user->name}}</div>\n@endif" });

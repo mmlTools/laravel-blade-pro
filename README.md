@@ -32,12 +32,12 @@ formats to:
 
 ## Formatting setup
 
-Run **Laravel Blade: Configure Workspace Formatter** to update only language-specific workspace settings, or configure manually after replacing the publisher placeholder before publication:
+Run **Laravel Blade: Configure Workspace Formatter** to update only language-specific workspace settings, or configure manually:
 
 ```json
 {
     "[laravel-blade]": {
-        "editor.defaultFormatter": "your-publisher-id.laravel-blade-pro",
+        "editor.defaultFormatter": "MMLTECH.laravel-blade-pro",
         "editor.formatOnSave": true
     }
 }
@@ -81,15 +81,15 @@ Known limitations: malformed or highly whitespace-sensitive templates may be lef
 
 ## Install and develop
 
-Marketplace installation will be available after the placeholder publisher and repository metadata are replaced. For a local VSIX, run `npm ci && npm run package`, then choose **Extensions: Install from VSIX...**.
+For a local VSIX, run `npm ci && npm run package`, then choose **Extensions: Install from VSIX...**.
 
 Development requires Node.js 22 and npm. Run `npm ci`, open the repository in VS Code, and press F5. The Extension Development Host opens the included Laravel-style sample workspace. Useful checks are `npm run lint`, `npm run compile`, `npm run test:unit`, and `npm run test:integration`.
 
-Report reproducible issues through the repository issue tracker after replacing the placeholder URL. Include a minimal Blade sample, expected output, actual output, extension version, and relevant settings. See [SUPPORT.md](SUPPORT.md) and [SECURITY.md](SECURITY.md).
+Report reproducible issues through the repository issue tracker. Include a minimal Blade sample, expected output, actual output, extension version, and relevant settings. See [SUPPORT.md](SUPPORT.md) and [SECURITY.md](SECURITY.md).
 
 ## Releasing
 
-1. Create the Marketplace publisher and replace every `your-publisher-id` / repository placeholder.
+1. Confirm that the Marketplace publisher is `MMLTECH` and the repository metadata is current.
 2. In Marketplace publisher management, create a trusted-publishing policy for this GitHub repository, the `marketplace` environment, and `.github/workflows/publish.yml`.
 3. Confirm `package.json` is `0.1.0`, run `npm test && npm run package`, commit, then `git tag v0.1.0 && git push origin v0.1.0`.
 4. The tag workflow requests a short-lived Marketplace credential with GitHub OIDC and publishes using `vsce publish --oidc`; no long-lived Marketplace PAT is stored.

@@ -14,7 +14,7 @@ export function activate(context: vscode.ExtensionContext): void {
     vscode.languages.registerDocumentFormattingEditProvider(selector, new LaravelBladeDocumentFormattingProvider(engine, output)),
     vscode.languages.registerDocumentRangeFormattingEditProvider(selector, new LaravelBladeRangeFormattingProvider(engine, output)),
     vscode.languages.registerFoldingRangeProvider(selector, new BladeFoldingProvider()),
-    vscode.commands.registerCommand("laravelBlade.configureWorkspace", configureWorkspaceFormatter),
+    vscode.commands.registerCommand("laravelBlade.configureWorkspace", () => configureWorkspaceFormatter(context.extension.id)),
     vscode.commands.registerCommand("laravelBlade.showOutput", () => output.show(true))
   );
   const webProvider = new PrettierDocumentFormattingProvider(output);
