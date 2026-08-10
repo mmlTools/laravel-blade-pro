@@ -1,219 +1,223 @@
 {
-  "name": "laravel-blade-pro",
-  "displayName": "Laravel Blade Pro",
-  "description": "Professional Blade, HTML, CSS, JavaScript and TypeScript formatting for Laravel projects.",
-  "version": "0.1.0",
-  "publisher": "your-publisher-id",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/YOUR_GITHUB_ACCOUNT/laravel-blade-pro.git"
-  },
-  "bugs": {
-    "url": "https://github.com/YOUR_GITHUB_ACCOUNT/laravel-blade-pro/issues"
-  },
-  "homepage": "https://github.com/YOUR_GITHUB_ACCOUNT/laravel-blade-pro#readme",
-  "engines": {
-    "vscode": "^1.96.0"
-  },
-  "categories": [
-    "Formatters",
-    "Programming Languages",
-    "Other"
-  ],
-  "keywords": [
-    "laravel",
-    "blade",
-    "formatter",
-    "php",
-    "html",
-    "javascript",
-    "typescript",
-    "alpine",
-    "livewire",
-    "vite"
-  ],
-  "icon": "media/icon.png",
-  "galleryBanner": {
-    "color": "#10162a",
-    "theme": "dark"
-  },
-  "main": "./dist/extension.js",
-  "activationEvents": [
-    "onLanguage:laravel-blade",
-    "onCommand:laravelBlade.configureWorkspace",
-    "onCommand:laravelBlade.showOutput"
-  ],
-  "contributes": {
-    "languages": [
-      {
-        "id": "laravel-blade",
-        "aliases": [
-          "Laravel Blade",
-          "Blade"
-        ],
-        "extensions": [
-          ".blade.php"
-        ],
-        "configuration": "./language-configuration.json"
-      }
+    "name": "laravel-blade-pro",
+    "displayName": "Laravel Blade Pro",
+    "description": "Professional Blade, HTML, CSS, JavaScript and TypeScript formatting for Laravel projects.",
+    "version": "0.1.0",
+    "publisher": "MMLTECH",
+    "pricing": "Free",
+    "sponsor": {
+        "url": "https://paypal.me/mmltools"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mmlTools/laravel-blade-pro.git"
+    },
+    "bugs": {
+        "url": "https://github.com/mmlTools/laravel-blade-pro/issues"
+    },
+    "homepage": "https://github.com/mmlTools/laravel-blade-pro#readme",
+    "engines": {
+        "vscode": "^1.96.0"
+    },
+    "categories": [
+        "Formatters",
+        "Programming Languages",
+        "Other"
     ],
-    "grammars": [
-      {
-        "language": "laravel-blade",
-        "scopeName": "text.html.php.blade",
-        "path": "./syntaxes/laravel-blade.tmLanguage.json",
-        "embeddedLanguages": {
-          "text.html.basic": "html",
-          "source.css": "css",
-          "source.js": "javascript",
-          "source.php": "php"
-        }
-      }
+    "keywords": [
+        "laravel",
+        "blade",
+        "formatter",
+        "php",
+        "html",
+        "javascript",
+        "typescript",
+        "alpine",
+        "livewire",
+        "vite"
     ],
-    "commands": [
-      {
-        "command": "laravelBlade.configureWorkspace",
-        "title": "Laravel Blade: Configure Workspace Formatter"
-      },
-      {
-        "command": "laravelBlade.showOutput",
-        "title": "Laravel Blade: Show Output"
-      }
+    "icon": "media/icon.png",
+    "galleryBanner": {
+        "color": "#10162a",
+        "theme": "dark"
+    },
+    "main": "./dist/extension.js",
+    "activationEvents": [
+        "onLanguage:laravel-blade",
+        "onCommand:laravelBlade.configureWorkspace",
+        "onCommand:laravelBlade.showOutput"
     ],
-    "configuration": {
-      "title": "Laravel Blade Pro",
-      "properties": {
-        "laravelBlade.tabWidth": {
-          "type": "number",
-          "default": 4,
-          "minimum": 1,
-          "maximum": 16,
-          "description": "Fallback indentation width. Editor formatting options take priority."
-        },
-        "laravelBlade.useTabs": {
-          "type": "boolean",
-          "default": false,
-          "description": "Fallback indentation style. Editor formatting options take priority."
-        },
-        "laravelBlade.printWidth": {
-          "type": "number",
-          "default": 120,
-          "minimum": 40,
-          "maximum": 400
-        },
-        "laravelBlade.singleQuote": {
-          "type": "boolean",
-          "default": true
-        },
-        "laravelBlade.wrapAttributes": {
-          "type": "string",
-          "enum": [
-            "auto",
-            "always",
-            "never"
-          ],
-          "default": "auto"
-        },
-        "laravelBlade.maxPreserveNewlines": {
-          "type": "number",
-          "default": 2,
-          "minimum": 0,
-          "maximum": 10
-        },
-        "laravelBlade.formatEmbeddedCss": {
-          "type": "boolean",
-          "default": true
-        },
-        "laravelBlade.formatEmbeddedJavaScript": {
-          "type": "boolean",
-          "default": true
-        },
-        "laravelBlade.formatEmbeddedTypeScript": {
-          "type": "boolean",
-          "default": true
-        },
-        "laravelBlade.formatPhpBlocks": {
-          "type": "boolean",
-          "default": false,
-          "description": "Reserved compatibility option. Version 0.1 preserves PHP block contents."
-        },
-        "laravelBlade.useLaravelPintForPhp": {
-          "type": "boolean",
-          "default": false,
-          "description": "Reserved opt-in integration. Version 0.1 never executes Pint."
-        },
-        "laravelBlade.customDirectivePairs": {
-          "type": "array",
-          "default": [],
-          "items": {
-            "type": "object",
-            "required": [
-              "start",
-              "end"
-            ],
-            "properties": {
-              "start": {
-                "type": "string",
-                "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
-              },
-              "middle": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
-                }
-              },
-              "end": {
-                "type": "string",
-                "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
-              }
+    "contributes": {
+        "languages": [
+            {
+                "id": "laravel-blade",
+                "aliases": [
+                    "Laravel Blade",
+                    "Blade"
+                ],
+                "extensions": [
+                    ".blade.php"
+                ],
+                "configuration": "./language-configuration.json"
             }
-          }
-        },
-        "laravelBlade.customStandaloneDirectives": {
-          "type": "array",
-          "default": [],
-          "items": {
-            "type": "string",
-            "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
-          }
-        },
-        "laravelBlade.preserveAttributeOrder": {
-          "type": "boolean",
-          "default": true
+        ],
+        "grammars": [
+            {
+                "language": "laravel-blade",
+                "scopeName": "text.html.php.blade",
+                "path": "./syntaxes/laravel-blade.tmLanguage.json",
+                "embeddedLanguages": {
+                    "text.html.basic": "html",
+                    "source.css": "css",
+                    "source.js": "javascript",
+                    "source.php": "php"
+                }
+            }
+        ],
+        "commands": [
+            {
+                "command": "laravelBlade.configureWorkspace",
+                "title": "Laravel Blade: Configure Workspace Formatter"
+            },
+            {
+                "command": "laravelBlade.showOutput",
+                "title": "Laravel Blade: Show Output"
+            }
+        ],
+        "configuration": {
+            "title": "Laravel Blade Pro",
+            "properties": {
+                "laravelBlade.tabWidth": {
+                    "type": "number",
+                    "default": 4,
+                    "minimum": 1,
+                    "maximum": 16,
+                    "description": "Fallback indentation width. Editor formatting options take priority."
+                },
+                "laravelBlade.useTabs": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Fallback indentation style. Editor formatting options take priority."
+                },
+                "laravelBlade.printWidth": {
+                    "type": "number",
+                    "default": 120,
+                    "minimum": 40,
+                    "maximum": 400
+                },
+                "laravelBlade.singleQuote": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "laravelBlade.wrapAttributes": {
+                    "type": "string",
+                    "enum": [
+                        "auto",
+                        "always",
+                        "never"
+                    ],
+                    "default": "auto"
+                },
+                "laravelBlade.maxPreserveNewlines": {
+                    "type": "number",
+                    "default": 2,
+                    "minimum": 0,
+                    "maximum": 10
+                },
+                "laravelBlade.formatEmbeddedCss": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "laravelBlade.formatEmbeddedJavaScript": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "laravelBlade.formatEmbeddedTypeScript": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "laravelBlade.formatPhpBlocks": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Reserved compatibility option. Version 0.1 preserves PHP block contents."
+                },
+                "laravelBlade.useLaravelPintForPhp": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Reserved opt-in integration. Version 0.1 never executes Pint."
+                },
+                "laravelBlade.customDirectivePairs": {
+                    "type": "array",
+                    "default": [],
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "start",
+                            "end"
+                        ],
+                        "properties": {
+                            "start": {
+                                "type": "string",
+                                "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+                            },
+                            "middle": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+                                }
+                            },
+                            "end": {
+                                "type": "string",
+                                "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+                            }
+                        }
+                    }
+                },
+                "laravelBlade.customStandaloneDirectives": {
+                    "type": "array",
+                    "default": [],
+                    "items": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+                    }
+                },
+                "laravelBlade.preserveAttributeOrder": {
+                    "type": "boolean",
+                    "default": true
+                }
+            }
         }
-      }
+    },
+    "scripts": {
+        "clean": "node esbuild.mjs --clean",
+        "compile": "tsc --noEmit",
+        "build": "node esbuild.mjs",
+        "watch": "node esbuild.mjs --watch",
+        "lint": "eslint src test",
+        "test": "npm run test:unit",
+        "test:unit": "vitest run test/unit --pool=threads --maxWorkers=1",
+        "test:integration": "npm run build && node build-test.mjs && node ./dist-test/runTest.js",
+        "package": "npm run lint && npm run compile && npm run test:unit && npm run build && vsce package --no-dependencies",
+        "publish:marketplace": "npm run lint && npm run compile && npm run test:unit && npm run build && vsce publish --no-dependencies"
+    },
+    "dependencies": {
+        "prettier": "^3.6.2",
+        "prettier-plugin-laravel-blade": "^1.6.0"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.32.0",
+        "@types/mocha": "^10.0.10",
+        "@types/node": "^22.17.0",
+        "@types/vscode": "^1.96.0",
+        "@vscode/test-electron": "^2.5.2",
+        "@vscode/vsce": "^3.6.0",
+        "esbuild": "^0.25.8",
+        "eslint": "^9.32.0",
+        "mocha": "^11.7.1",
+        "typescript": "^5.9.2",
+        "typescript-eslint": "^8.39.0",
+        "vitest": "^3.2.4"
     }
-  },
-  "scripts": {
-    "clean": "node esbuild.mjs --clean",
-    "compile": "tsc --noEmit",
-    "build": "node esbuild.mjs",
-    "watch": "node esbuild.mjs --watch",
-    "lint": "eslint src test",
-    "test": "npm run test:unit",
-    "test:unit": "vitest run test/unit --pool=threads --maxWorkers=1",
-    "test:integration": "npm run build && node build-test.mjs && node ./dist-test/runTest.js",
-    "package": "npm run lint && npm run compile && npm run test:unit && npm run build && vsce package --no-dependencies",
-    "publish:marketplace": "npm run lint && npm run compile && npm run test:unit && npm run build && vsce publish --no-dependencies"
-  },
-  "dependencies": {
-    "prettier": "^3.6.2",
-    "prettier-plugin-laravel-blade": "^1.6.0"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.32.0",
-    "@types/mocha": "^10.0.10",
-    "@types/node": "^22.17.0",
-    "@types/vscode": "^1.96.0",
-    "@vscode/test-electron": "^2.5.2",
-    "@vscode/vsce": "^3.6.0",
-    "esbuild": "^0.25.8",
-    "eslint": "^9.32.0",
-    "mocha": "^11.7.1",
-    "typescript": "^5.9.2",
-    "typescript-eslint": "^8.39.0",
-    "vitest": "^3.2.4"
-  }
 }
