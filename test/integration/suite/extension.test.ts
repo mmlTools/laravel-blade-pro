@@ -1,9 +1,13 @@
 import * as assert from "node:assert";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import * as vscode from "vscode";
 
 suite("Laravel Blade Pro integration", () => {
   test("detects Blade and returns document/range formatting edits", async () => {
-    const extension = vscode.extensions.all.find((candidate) => candidate.id.toLowerCase().endsWith(".laravel-blade-pro"));
+    const manifest: unknown = JSON.parse(readFileSync(resolve(__dirname, "..", "..", "package.json"), "utf8"));
+    assert.ok(isExtensionManifest(manifest), "Extension manifest does not contain a valid publisher and name");
+    const extension = vscode.extensions.getExtension(`${manifest.publisher}.${manifest.name}`);
     assert.ok(extension, "Development extension was not discovered");
     await extension.activate();
     const document = await vscode.workspace.openTextDocument({ language: "laravel-blade", content: "@if($user)\n<div>{{$user->name}}</div>\n@endif" });
@@ -17,3 +21,9 @@ suite("Laravel Blade Pro integration", () => {
     assert.ok(range?.length);
   });
 });
+
+function isExtensionManifest(value: unknown): value is { publisher: string; name: string } {
+  if (typeof value !== "object" || value === null) return false;
+  const record = value as Record<string, unknown>;
+  return typeof record.publisher === "string" && typeof record.name === "string";
+}

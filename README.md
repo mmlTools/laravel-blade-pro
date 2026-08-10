@@ -90,9 +90,9 @@ Report reproducible issues through the repository issue tracker. Include a minim
 ## Releasing
 
 1. Confirm that the Marketplace publisher is `MMLTECH` and the repository metadata is current.
-2. In Marketplace publisher management, create a trusted-publishing policy for this GitHub repository, the `marketplace` environment, and `.github/workflows/publish.yml`.
+2. Add a GitHub environment or repository secret named `VSCE_PAT` containing an Azure DevOps token with the Marketplace **Manage** scope. The workflow does not expose the token in logs.
 3. Confirm `package.json` is `0.1.0`, run `npm test && npm run package`, commit, then `git tag v0.1.0 && git push origin v0.1.0`.
-4. The tag workflow requests a short-lived Marketplace credential with GitHub OIDC and publishes using `vsce publish --oidc`; no long-lived Marketplace PAT is stored.
+4. The tag workflow publishes with the `VSCE_PAT` secret. Migrate to `vsce publish --azure-credential` or native GitHub OIDC when the publisher authentication is configured and supported by the stable `@vscode/vsce` release.
 
 ## License
 
