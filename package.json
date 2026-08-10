@@ -59,7 +59,11 @@
                 "extensions": [
                     ".blade.php"
                 ],
-                "configuration": "./language-configuration.json"
+                "configuration": "./language-configuration.json",
+                "icon": {
+                    "light": "./media/blade-file-light.svg",
+                    "dark": "./media/blade-file-dark.svg"
+                }
             }
         ],
         "grammars": [
@@ -139,8 +143,8 @@
                 },
                 "laravelBlade.formatPhpBlocks": {
                     "type": "boolean",
-                    "default": false,
-                    "description": "Reserved compatibility option. Version 0.1 preserves PHP block contents."
+                    "default": true,
+                    "description": "Indent code inside @php and @endphp blocks without executing PHP or external tools."
                 },
                 "laravelBlade.useLaravelPintForPhp": {
                     "type": "boolean",
@@ -186,6 +190,11 @@
                 "laravelBlade.preserveAttributeOrder": {
                     "type": "boolean",
                     "default": true
+                },
+                "laravelBlade.supportReminder.enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Show an optional weekly reminder to rate or support Laravel Blade Pro after the first week of use."
                 }
             }
         }

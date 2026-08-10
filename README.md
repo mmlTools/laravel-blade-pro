@@ -1,8 +1,24 @@
 # Laravel Blade Pro
 
-Laravel Blade Pro gives `.blade.php` files their own **Laravel Blade** language mode, theme-aware syntax highlighting, Blade-aware formatting, indentation, folding, and safe mixed-language handling. It also provides optional Prettier-backed formatters for HTML, CSS, SCSS, JavaScript, JSX, TypeScript, TSX, and JSON.
+Laravel Blade Pro brings Blade-aware formatting, syntax highlighting, indentation, and folding to Laravel templates in Visual Studio Code. It understands the structure created by Blade directives while safely preserving embedded HTML, JavaScript, CSS, Alpine.js, and Livewire syntax.
 
-Blade needs more than HTML indentation because directives form a second nesting tree. For example:
+## Features
+
+- Dedicated **Laravel Blade** language mode for `*.blade.php` files.
+- Custom light and dark file icons for Blade templates in supported VS Code icon themes.
+- Formatting for complete documents and selected ranges.
+- Support for **Format on Save**.
+- Blade-aware indentation and folding for nested directives.
+- Highlighting for Blade comments, escaped and raw echoes, directives, components, and slots.
+- Support for Alpine.js attributes such as `x-data`, `@click`, and `:class`.
+- Support for Livewire attributes such as `wire:model` and `wire:click`.
+- Safe handling of Blade expressions inside scripts and styles.
+- Optional formatting providers for HTML, CSS, SCSS, JavaScript, JSX, TypeScript, TSX, and JSON.
+- Local-only formatting with no telemetry, background network requests, template execution, or automatic project commands.
+
+## Example
+
+Before formatting:
 
 ```blade
 @section('content')
@@ -12,7 +28,7 @@ Blade needs more than HTML indentation because directives form a second nesting 
 @endsection
 ```
 
-formats to:
+After formatting:
 
 ```blade
 @section('content')
@@ -22,17 +38,17 @@ formats to:
 @endsection
 ```
 
-## Features
+## Installation
 
-- Dedicated `laravel-blade` mode for `*.blade.php`, with Blade comments, escaped/raw echoes, PHP-like expression scopes, built-in and custom directives.
-- HTML, Laravel components and slots, Alpine (`x-*`, `@click`, `:class`) and Livewire (`wire:*`) attribute highlighting.
-- Embedded JavaScript and CSS scopes; formatter preservation for Blade expressions inside scripts and styles.
-- Format Document (`Ctrl+Shift+F` / `Format Document With...`), range formatting, format on save, typing indentation, and nested Blade folding.
-- Local-only formatting with no telemetry, network requests, template execution, or automatic project command execution.
+Install **Laravel Blade Pro** from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=MMLTECH.laravel-blade-pro), or open the Extensions view in VS Code and search for `Laravel Blade Pro`.
+
+Files ending in `.blade.php` are automatically recognized as Laravel Blade templates.
 
 ## Formatting setup
 
-Run **Laravel Blade: Configure Workspace Formatter** to update only language-specific workspace settings, or configure manually:
+Open the Command Palette and run **Laravel Blade: Configure Workspace Formatter** to enable Laravel Blade Pro for the current workspace.
+
+You can also configure it manually in your workspace settings:
 
 ```json
 {
@@ -43,57 +59,75 @@ Run **Laravel Blade: Configure Workspace Formatter** to update only language-spe
 }
 ```
 
-The web-language providers are opt-in: select Laravel Blade Pro through **Format Document With...**. They do not change your default formatter and can coexist with Prettier, ESLint, TypeScript tooling, Tailwind CSS IntelliSense, Intelephense, and Laravel extensions.
+To select the formatter for only the current document, run **Format Document With...** and choose **Laravel Blade Pro**.
+
+The optional web-language formatters do not replace your existing defaults automatically. They can coexist with Prettier, ESLint, Tailwind CSS IntelliSense, Intelephense, and other Laravel extensions.
 
 ## Configuration
 
-| Setting | Default | Purpose |
-|---|---:|---|
-| `laravelBlade.tabWidth` | `4` | Fallback indentation width; editor options win. |
-| `laravelBlade.useTabs` | `false` | Fallback indentation style; editor options win. |
-| `laravelBlade.printWidth` | `120` | Preferred line width. |
-| `laravelBlade.singleQuote` | `true` | Prettier quote preference where applicable. |
-| `laravelBlade.wrapAttributes` | `auto` | Attribute wrapping preference. |
-| `laravelBlade.maxPreserveNewlines` | `2` | Reserved newline preservation preference. |
-| `laravelBlade.formatEmbeddedCss` | `true` | Embedded CSS preference. |
-| `laravelBlade.formatEmbeddedJavaScript` | `true` | Embedded JavaScript preference. |
-| `laravelBlade.formatEmbeddedTypeScript` | `true` | Embedded TypeScript preference. |
-| `laravelBlade.formatPhpBlocks` | `false` | Reserved compatibility option; PHP blocks are preserved in 0.1. |
-| `laravelBlade.useLaravelPintForPhp` | `false` | Reserved; 0.1 never executes Pint. |
-| `laravelBlade.preserveAttributeOrder` | `true` | Do not opt into attribute sorting. |
+| Setting                                 | Default | Description                                                                       |
+| --------------------------------------- | ------: | --------------------------------------------------------------------------------- |
+| `laravelBlade.tabWidth`                 |     `4` | Fallback indentation width when the editor does not provide one.                  |
+| `laravelBlade.useTabs`                  | `false` | Use tabs as the fallback indentation style.                                       |
+| `laravelBlade.printWidth`               |   `120` | Preferred maximum line width.                                                     |
+| `laravelBlade.singleQuote`              |  `true` | Prefer single quotes where applicable.                                            |
+| `laravelBlade.wrapAttributes`           |  `auto` | Control attribute wrapping.                                                       |
+| `laravelBlade.maxPreserveNewlines`      |     `2` | Maximum number of consecutive newlines to preserve.                               |
+| `laravelBlade.formatEmbeddedCss`        |  `true` | Enable formatting for embedded CSS.                                               |
+| `laravelBlade.formatEmbeddedJavaScript` |  `true` | Enable formatting for embedded JavaScript.                                        |
+| `laravelBlade.formatEmbeddedTypeScript` |  `true` | Enable formatting for embedded TypeScript.                                        |
+| `laravelBlade.formatPhpBlocks`          |  `true` | Indent code inside `@php` blocks without running external tools.                  |
+| `laravelBlade.useLaravelPintForPhp`     | `false` | Reserved for optional Laravel Pint integration.                                   |
+| `laravelBlade.preserveAttributeOrder`   |  `true` | Preserve the original HTML attribute order.                                       |
+| `laravelBlade.supportReminder.enabled`  |  `true` | Show the optional weekly rating and support reminder after the first week of use. |
 
-Custom block directives participate in folding and indentation analysis:
+### Custom directives
+
+Custom block directives can participate in indentation and folding:
 
 ```json
 {
     "laravelBlade.customDirectivePairs": [
-        { "start": "feature", "middle": ["elsefeature"], "end": "endfeature" }
+        {
+            "start": "feature",
+            "middle": ["elsefeature"],
+            "end": "endfeature"
+        }
     ],
     "laravelBlade.customStandaloneDirectives": ["tenant"]
 }
 ```
 
-## Compatibility and trust
+## Workspace trust and privacy
 
-The bundled parser supports modern Blade directives, Laravel components, Alpine and Livewire attributes. Pure formatting works in untrusted workspaces. The extension does not load executable project configuration, project Node modules, Pint, PHP, or shell commands. Use Laravel Pint separately for complete PHP source formatting.
+Formatting works in untrusted workspaces. Laravel Blade Pro does not load executable project configuration, run project Node modules, execute PHP or Laravel Pint, or send telemetry.
 
-Known limitations: malformed or highly whitespace-sensitive templates may be left unchanged; range formatting requires the selected lines to form a parseable fragment; custom directives are structurally recognized by extension features but their final layout depends on the Blade parser; TypeScript inside Blade `<script>` tags is conservatively handled as embedded script content. `<pre>`, `<textarea>`, verbatim blocks, inline SVG, strings, and expression bodies are treated conservatively.
+The optional support reminder is stored locally by VS Code and appears at most once a week after the first week of use. It can be dismissed permanently with **Don't show again** or disabled through the `laravelBlade.supportReminder.enabled` setting.
 
-## Install and develop
+## Known limitations
 
-For a local VSIX, run `npm ci && npm run package`, then choose **Extensions: Install from VSIX...**.
+- Malformed or highly whitespace-sensitive templates may be left unchanged to avoid damaging their contents.
+- Range formatting requires the selected lines to form a parseable fragment.
+- Custom directives are structurally recognized, but their final layout can depend on the underlying Blade parser.
+- TypeScript inside Blade `<script>` tags is handled conservatively.
+- `<pre>`, `<textarea>`, `@verbatim` blocks, inline SVG, strings, and expression bodies are preserved conservatively.
+- Use Laravel Pint separately when complete PHP source formatting is required.
 
-Development requires Node.js 22 and npm. Run `npm ci`, open the repository in VS Code, and press F5. The Extension Development Host opens the included Laravel-style sample workspace. Useful checks are `npm run lint`, `npm run compile`, `npm run test:unit`, and `npm run test:integration`.
+## Help and feedback
 
-Report reproducible issues through the repository issue tracker. Include a minimal Blade sample, expected output, actual output, extension version, and relevant settings. See [SUPPORT.md](SUPPORT.md) and [SECURITY.md](SECURITY.md).
+If you encounter a problem, [open a GitHub issue](https://github.com/mmlTools/laravel-blade-pro/issues) with:
 
-## Releasing
+- A minimal Blade example.
+- The expected and actual output.
+- Your extension version.
+- Any relevant Laravel Blade Pro settings.
 
-1. Confirm that the Marketplace publisher is `MMLTECH` and the repository metadata is current.
-2. Add a GitHub environment or repository secret named `VSCE_PAT` containing an Azure DevOps token with the Marketplace **Manage** scope. The workflow does not expose the token in logs.
-3. Push a normal change to `main`. After the `CI` workflow succeeds, the release workflow runs automatically. It increments the patch version when the current version already has a tag, updates `package.json` and `package-lock.json`, publishes the VSIX, and atomically pushes the synchronized release commit and `vX.Y.Z` tag.
-4. You can also run **Publish Marketplace release** manually from GitHub Actions. Migrate to `vsce publish --azure-credential` or native GitHub OIDC when the publisher authentication is configured and supported by the stable `@vscode/vsce` release.
+For additional guidance, see the [support information](https://github.com/mmlTools/laravel-blade-pro/blob/main/SUPPORT.md). Security issues should follow the [security policy](https://github.com/mmlTools/laravel-blade-pro/blob/main/SECURITY.md).
+
+## Support the project
+
+Laravel Blade Pro is free and open source. If it saves you time, you can help by leaving a [Marketplace rating](https://marketplace.visualstudio.com/items?itemName=MMLTECH.laravel-blade-pro&ssr=false#review-details), sharing the extension, or making an optional [donation](https://paypal.me/mmltools).
 
 ## License
 
-MIT. The formatter dependency is also MIT-licensed. The original extension icon does not use the Laravel or VS Code trademarks.
+Laravel Blade Pro is available under the [MIT License](https://github.com/mmlTools/laravel-blade-pro/blob/main/LICENSE).
